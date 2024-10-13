@@ -241,7 +241,7 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
 
          // 同じ子音2連続は拡張レイヤー処理しない
          if ( lastKeyCode == keyCode ){
-            isLastKeyConsonant = FALSE;
+            isLastKeyConsonant = TRUE;
          }
          // XN は拡張レイヤー処理しない 
          else if ( lastKeyCode == 'X' && keyCode == 'N' ){
