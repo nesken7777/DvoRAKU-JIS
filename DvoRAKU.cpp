@@ -163,7 +163,7 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
    // Ctrlキーと同時押しのキーバインド設定
    // 設定のないキーはQWERTYで処理する
    if( isControl ) {
-      if ( keyFlags & LLKHF_INJECTED == FALSE ){
+      if ( ( keyFlags & LLKHF_INJECTED ) == FALSE ){
          if ( keyCode == 'M' ){
             SendKey( VK_RETURN );
          }
