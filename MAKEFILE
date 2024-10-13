@@ -1,0 +1,8 @@
+
+DvoRAKU.exe:DvoRAKU.cpp
+	cl /nologo /EHsc DvoRAKU.cpp
+
+clean:
+	del DvoRAKU.obj
+	del DvoRAKU.exe
+

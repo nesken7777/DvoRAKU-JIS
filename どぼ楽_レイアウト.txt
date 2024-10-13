@@ -25,7 +25,7 @@
 
 `    yann yonn yenn yunn hinn 6    7    8    9    0    [    ]
       ya   yo   ye   yu   hi   <yy  <dd  <gg  <ff  <pp  <bb  <vv
-       a    o    e    u    i    <hh  <tt  <kk  <rr  <ss  q  \
+       a    o    e    u    i    <hh  <tt  <kk  <rr  <ss  q    \
         ann  onn  enn  unn  inn  <nn  <mm  <ww  <jj  <zz
 
 ◆◆その他の子音の直後（同じ子音2連続を除く）
