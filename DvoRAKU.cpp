@@ -241,9 +241,16 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
 
          // 同じ子音2連続は拡張レイヤー処理しない
          if ( lastKeyCode == keyCode ){
-            isLastKeyConsonant = TRUE;
+            // NN は拡張レイヤー処理せず拡張レイヤーを抜ける
+            if ( lastKeyCode == 'N' && keyCode == 'N' ){
+               isLastKeyConsonant = FALSE;
+            }
+            // 同じ子音2連続は拡張レイヤー処理しないが、拡張レイヤーを継続する
+            else {
+               isLastKeyConsonant = TRUE;
+            }
          }
-         // XN は拡張レイヤー処理しない 
+         // XN は拡張レイヤー処理せず拡張レイヤーを抜ける
          else if ( lastKeyCode == 'X' && keyCode == 'N' ){
             isLastKeyConsonant = FALSE;
          }
