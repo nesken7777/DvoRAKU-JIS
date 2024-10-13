@@ -239,26 +239,26 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
           keyCode == 'Z' ) {
 
 
-         // 同じ子音2連続は拡張レイヤー処理しない
-         if ( lastKeyCode == keyCode ){
-            // NN は拡張レイヤー処理せず拡張レイヤーを抜ける
-            if ( lastKeyCode == 'N' && keyCode == 'N' ){
+         // 拡張レイヤー処理
+         if( isLastKeyConsonant == TRUE ){
+            // 同じ子音2連続は拡張レイヤー処理しない
+            if ( lastKeyCode == keyCode ){
+               // NN は拡張レイヤー処理せず拡張レイヤーを抜ける
+               if ( lastKeyCode == 'N' && keyCode == 'N' ){
+                  isLastKeyConsonant = FALSE;
+               }
+               // 同じ子音2連続は拡張レイヤー処理しないが、拡張レイヤーを継続する
+               else {
+                  isLastKeyConsonant = TRUE;
+               }
+            }
+            // XN は拡張レイヤー処理せず拡張レイヤーを抜ける
+            else if ( lastKeyCode == 'X' && keyCode == 'N' ){
                isLastKeyConsonant = FALSE;
             }
-            // 同じ子音2連続は拡張レイヤー処理しないが、拡張レイヤーを継続する
-            else {
-               isLastKeyConsonant = TRUE;
-            }
-         }
-         // XN は拡張レイヤー処理せず拡張レイヤーを抜ける
-         else if ( lastKeyCode == 'X' && keyCode == 'N' ){
-            isLastKeyConsonant = FALSE;
-         }
-         // 拡張レイヤー処理
-         else if( isLastKeyConsonant == TRUE ){
             // Q<子音> → Qを削除して<子音>に置き換える
             // e.q. QS → SS
-            if( lastKeyCode == 'Q' ){
+            else if( lastKeyCode == 'Q' ){
                SendKey( VK_BACK );
                SendKey( keyCode );
                isLastKeyConsonant = TRUE;
