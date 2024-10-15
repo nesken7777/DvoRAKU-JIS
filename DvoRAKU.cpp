@@ -19,14 +19,19 @@
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp);
+LRESULT CALLBACK MouseHookProc(int nCode, WPARAM wp, LPARAM lp);
 void HookStart();
 void HookEnd();
 
 char SendKey( char keyCode );
 char SendKey( char modifierCode, char keyCode );
 
+char SendKeyDown( char keyCode );
+char SendKeyUp( char keyCode );
+
 HINSTANCE hInst;
 HHOOK hHook;
+HHOOK hMouseHook;
 
 HWND hWnd;
 
@@ -34,6 +39,8 @@ int lastKeyCode;
 bool isLastKeyConsonant;
 bool enableDvoRAKU = TRUE;
 bool enableExtendedRAKU = TRUE;
+
+bool isControl = FALSE;
 
 int main( int argc, char *argv[] ){
 
@@ -131,17 +138,17 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
 
   // Ctrlキー状態 
   // Ctrl + △ を Ctrl + □　ではなく □ 単打に入れ替えられるようにCtrl状態を内部管理する
-   static bool isControl = FALSE;
    if ( keyCode == VK_CONTROL || keyCode == VK_LCONTROL || keyCode == VK_RCONTROL ){
-      if ( keyFlags & LLKHF_INJECTED ){
+      if ( isInjected ){
          return CallNextHookEx(hHook, nCode, wp, lp);
       }
       else {
-         if( ( keyFlags & LLKHF_UP ) == 0  ){
-            isControl = TRUE;
+         if( isKeyUp  ){
+            isControl = FALSE;
+            SendKeyUp( VK_CONTROL );
          }
          else {
-            isControl = FALSE;
+            isControl = TRUE;
          }
          return TRUE;
       }
@@ -156,7 +163,7 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
    isAlt = GetAsyncKeyState( VK_MENU ) & 0x8000;
 
    // キーアップイベントは入れ替え処理しない
-   if( ( keyFlags & LLKHF_UP ) != 0  ){
+   if( ( isKeyUp  ){
       return CallNextHookEx(hHook, nCode, wp, lp);
    }
 
@@ -214,7 +221,7 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
 
 
    // 挿入されたキーイベント
-   if ( keyFlags & LLKHF_INJECTED ){
+   if ( isInjected ){
       //子音キーが挿入されたら拡張レイヤーに入る
       if( keyCode == 'B' ||
           keyCode == 'C' || 
@@ -545,21 +552,50 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
    return TRUE; 
 }
 
+LRESULT CALLBACK MouseHookProc(int nCode, WPARAM wp, LPARAM lp)
+{
+
+   if ( nCode != HC_ACTION ){
+      return CallNextHookEx( hHook, nCode, wp, lp);
+   }
+
+   if( isControl ){
+      SendKeyDown( VK_CONTROL );
+   }
+
+   return CallNextHookEx( hMouseHook, nCode, wp, lp);
+}
+
 void HookStart()
 {
    printf( "keyChar, keyCode, scanCode, keyFlags, eventType\n" );
    hHook = SetWindowsHookEx( WH_KEYBOARD_LL, HookProc, hInst, 0);
+   hMouseHook = SetWindowsHookEx( WH_MOUSE_LL, MouseHookProc, hInst, 0);
 }
 
 void HookEnd()
 {
    UnhookWindowsHookEx(hHook);
+   UnhookWindowsHookEx(hMouseHook);
 }
 
 
 char SendKey( char keyCode ){
 
    keybd_event( keyCode, NULL, NULL, NULL );
+   keybd_event( keyCode, NULL, KEYEVENTF_KEYUP, NULL );
+
+   return keyCode;
+}
+
+char SendKeyDown( char keyCode ){
+
+   keybd_event( keyCode, NULL, NULL, NULL );
+
+   return keyCode;
+}
+char SendKeyUp( char keyCode ){
+
    keybd_event( keyCode, NULL, KEYEVENTF_KEYUP, NULL );
 
    return keyCode;
