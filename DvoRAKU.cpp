@@ -163,7 +163,7 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
    isAlt = GetAsyncKeyState( VK_MENU ) & 0x8000;
 
    // キーアップイベントは入れ替え処理しない
-   if( ( isKeyUp  ){
+   if( isKeyUp  ){
       return CallNextHookEx(hHook, nCode, wp, lp);
    }
 
