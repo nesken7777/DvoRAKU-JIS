@@ -362,10 +362,12 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
       }
    }
    else if ( keyCode == VK_OEM_MINUS ){ // -_ 
-      SendKey( VK_OEM_4 ); // [{
+      //SendKey( VK_OEM_4 ); // [{
+      SendKey( 'X' );
    }
    else if ( keyCode == VK_OEM_PLUS ){ // =+
-      SendKey( VK_OEM_6 ); // ]}
+      //SendKey( VK_OEM_6 ); // ]}
+      SendKey( 'C' );
    }
    //上段左
    else if ( keyCode == 'Q' ){
@@ -475,6 +477,9 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
    else if ( keyCode == VK_OEM_7 ){ // '"
       SendKey( 'Q');
    }
+   else if ( keyCode == VK_OEM_5 ){ // \|
+      SendKey( 'L');
+   }
    //下段左
    else if ( keyCode == 'Z' ){
       if( isLastKeyConsonant ){
@@ -493,7 +498,8 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
          SendKey( 'N' );
       }
       else {
-         SendKey( 'X' );
+         //SendKey( 'X' );
+         SendKey( VK_OEM_4 ); // [{
       }
    }
    else if ( keyCode == 'C' ){
@@ -503,7 +509,8 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
          SendKey( 'N' );
       }
       else {
-         SendKey( 'C' );
+         //SendKey( 'C' );
+         SendKey( VK_OEM_6 ); // ]}
       }
    }
    else if ( keyCode == 'V' ){
@@ -513,7 +520,8 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
          SendKey( 'N' );
       }
       else {
-         SendKey( 'L' );
+         //SendKey( 'L' );
+         SendKey( VK_OEM_2 ); // /?
       }
    }
    else if ( keyCode == 'B' ){
@@ -523,7 +531,8 @@ LRESULT CALLBACK HookProc(int nCode, WPARAM wp, LPARAM lp)
          SendKey( 'N' );
       }
       else {
-         SendKey( VK_OEM_2 ); // /?
+         //SendKey( VK_OEM_2 ); // /?
+         SendKey( VK_OEM_5 ); // \| 
       }
    }
    //下段右
