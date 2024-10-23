@@ -38,7 +38,7 @@ HWND hWnd;
 int lastKeyCode;
 bool isLastKeyConsonant;
 bool enableDvoRAKU = TRUE;
-bool enableExtendedRAKU = TRUE;
+bool enableExtendedRAKU = FALSE;
 
 bool isControl = FALSE;
 
