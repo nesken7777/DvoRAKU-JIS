@@ -1,0 +1,43 @@
+
+
+「どぼ楽」　～QWERTYから楽に移行できることを目指した
+　　　　　　　　　　　Dvorakライクなローマ字入力配列～
+
+◆通常レイヤー
+
+◆◆表（単打）
+
+`    1    2    3    4    5    6    7    8    9    0    x    c
+      '    ,    .    -    =    y    d    g    f    p    b    v
+       a    o    e    u    i    h    t    k    r    s    q    l
+        ;    [    ]    /    \    n    m    w    j    z
+   
+◆◆裏（Shift）
+
+~    !    @    #    $    %    ^    &    *    (    )    X    C
+      "    <    >    _    +    Y    D    G    F    P    B    V
+       A    O    E    U    I    H    T    K    R    S    Q    L
+        :    {    }    ?    |    N    M    W    J    Z
+
+◆拡張レイヤー「楽」
+
+◆◆Qの直後（　'<'はBackSpace ） 
+
+`    yann yonn yenn yunn hinn 6    7    8    9    0    <xx  <cc
+      ya   yo   ye   yu   hi   <yy  <dd  <gg  <ff  <pp  <bb  <vv
+       a    o    e    u    i    <hh  <tt  <kk  <rr  <ss  q    <ll
+        ann  onn  enn  unn  inn  <nn  <mm  <ww  <jj  <zz
+
+◆◆その他の子音の直後（同じ子音2連続を除く）
+
+`    yann yonn yenn yunn hinn 6    7    8    9    0    axa  aca
+      ya   yo   ye   yu   hi   aya  ada  aga  afa  apa  aba  ava
+       a    o    e    u    i    aha  ata  aka  ara  asa  aqa  ala
+        ann  onn  enn  unn  inn  ana  ama  awa  aja  aza
+
+◆その他のキーバインド
+Ctrl + M　→　Enter
+Ctrl + H　→　BackSpace
+
+Alt  + Q　→　QWERTY　⇔　どぼ楽　切り替え
+Alt  + X　→　拡張レイヤーの有効/無効　切り替え
