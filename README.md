@@ -1,35 +1,40 @@
-# DvoRAKU
+# DvoRAKU-JIS
 
-## ŸŠJ”­ŽÒ
-TK Lab.  
+ã€Œ[ã©ã¼æ¥½](https://github.com/TK-Laboratory/DvoRAKU)ã€(ãƒ•ã‚©ãƒ¼ã‚¯å…ƒ)ã‚’JISç”¨ã«æ›¸ã„ãŸã‚„ã¤ã§ã™
 
-Twitter : @TK_Lab_  
+## â—†é–‹ç™ºç’°å¢ƒ  
 
-## ŸŠJ”­ŠÂ‹«  
-Windows10 Pro 64bit  
+Windows11 Pro 24H2
 
-Visual Studio Community 2022  
+rustc 1.85.0
 
-## Ÿƒrƒ‹ƒh•û–@
-‚PDƒXƒ^[ƒgƒƒjƒ…[‚©‚çVisual Studio ‚ÌuŠJ”­ŽÒ—pƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒgv‚ð‹N“®
+## â—†ãƒ“ãƒ«ãƒ‰æ–¹æ³•
 
-‚QDƒJƒŒƒ“ƒgƒfƒBƒŒƒNƒgƒŠ‚ðƒNƒ[ƒ“‚µ‚Ä‚«‚½ƒfƒBƒŒƒNƒgƒŠ‚ÉˆÚ“®
+```
+cargo build --release
+```
 
-‚RDŠJ”­ŽÒƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒg‚©‚ç make.cmd ‚ðŽÀs
+## â—†èµ·å‹•æ–¹æ³•  
+å‡ºæ¥ä¸ŠãŒã£ãŸDvoRAKU-JIS.exe ã‚’ã‚³ãƒžãƒ³ãƒ‰ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã‹ã‚‰å®Ÿè¡Œ  
 
-## Ÿ‹N“®•û–@  
-o—ˆã‚ª‚Á‚½DvoRAKU.exe ‚ðƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒg‚©‚çŽÀs  
+ã¾ãŸã¯ã€ã‚¨ã‚¯ã‚¹ãƒ—ãƒ­ãƒ¼ãƒ©ãƒ¼ä¸Šã§ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯
 
-‚Ü‚½‚ÍAƒGƒNƒXƒvƒ[ƒ‰[ã‚Åƒ_ƒuƒ‹ƒNƒŠƒbƒN
+## â—†çµ‚äº†æ–¹æ³•
+ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®Ã—ãƒœã‚¿ãƒ³ã‚’æŠ¼ã™  
 
-## ŸI—¹•û–@  
-ƒEƒBƒ“ƒhƒE‚Ì~ƒ{ƒ^ƒ“‚ð‰Ÿ‚·  
+ã¾ãŸã¯DvoRAKU.exeã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é¸æŠžã—ã¦Ctrl + C
 
-‚Ü‚½‚ÍDvoRAKU.exe‚ÌƒEƒBƒ“ƒhƒE‚ð‘I‘ð‚µ‚Ä Ctrl + C
+## â—† æ³¨æ„äº‹é …
 
-## Ÿ ’ˆÓŽ–€
-‚à‚Æ‚à‚Æ‚ª‰pŒê”z—ñŠÂ‹«‚Å‚ ‚é‚±‚Æ‚ð‚ð‘O’ñ‚Æ‚µ‚½ŽÀ‘•‚Æ‚È‚Á‚Ä‚é‚Ì‚ÅA“ú–{Œê”z—ñŠÂ‹«‚Å‚Í‚»‚Ì‚Ü‚Ü‚¾‚Æ‚¤‚Ü‚­“®‚©‚È‚¢‚ÆŽv‚¢‚Ü‚·B
+ãƒ•ã‚©ãƒ¼ã‚¯å…ƒã‹ã‚‰å¤§åˆ†é•ã„ã¾ã™
 
-## Ÿ‚»‚Ì‘¼  
-’˜ìŒ ‚Í TK Lab. ‚É‹A‘®‚µ‚Ü‚·‚ªA”ñ‰c—˜‹y‚ÑŽ©ŒÈÓ”C‚Ì”ÍˆÍ“à‚ÅA—˜—pE‰ü‘¢EÄ”Ð•z‚È‚Ç‚²Ž©—R‚É‚µ‚Ä‚­‚¾‚³‚¢B
+- åŠè§’ã‹IMEã‹ã¯é–¢ä¿‚ãªãã©ã¼æ¥½é…åˆ—ã«ãªã‚‹
+- Ctrl + M â†’ Enter / Ctrl + H â†’ Backspace ãŒç„¡ã„
+- åˆ‡ã‚Šæ›¿ãˆãŒç„¡ã„
+- æ‹¡å¼µãƒ¬ã‚¤ãƒ¤ãƒ¼ã€Œæ¥½ã€ãŒç„¡ã„
+- è¨˜å·ã®é…ç½®ãŒãƒ•ã‚©ãƒ¼ã‚¯å…ƒã¨é•ã†
+- ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã«ã‚³ãƒ¡ãƒ³ãƒˆã‚’ä»˜ã‘ã¦ãªã„
 
+## â—†ãã®ä»–
+
+Releasesã«DvoRAKU-JIS.exeã¨NohBoardç”¨ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚ã‚Šã¾ã™

@@ -1,0 +1,15 @@
+◆通常レイヤー
+
+◆◆表（単打）
+
+IME  1    2    3    4    5    6    7    8    9    0    x    c    \
+      @    [    ]    ;    :    y    d    g    f    p    b    v
+       a    o    e    u    i    h    t    k    r    s    q    l
+        -    ,    .    /    \    n    m    w    j    z    ^
+   
+◆◆裏（Shift）
+
+IME  !    "    #    $    %    &    '    (    )         X    C    |
+      `    {    }    +    *    Y    D    G    F    P    B    V
+       A    O    E    U    I    H    T    K    R    S    Q    L
+        =    <    >    ?    _    N    M    W    J    Z    ~
