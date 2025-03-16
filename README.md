@@ -22,7 +22,7 @@ cargo build --release
 ## ◆終了方法
 ウィンドウの×ボタンを押す  
 
-またはDvoRAKU.exeのウィンドウを選択してCtrl + C
+またはDvoRAKU-JIS.exeのウィンドウを選択してCtrl + C
 
 ## ◆ 注意事項
 
