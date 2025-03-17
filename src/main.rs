@@ -1,6 +1,5 @@
 use std::{
     ffi::c_void,
-    io::Write,
     ptr::NonNull,
     sync::{
         OnceLock,
@@ -15,12 +14,12 @@ use windows::{
         System::LibraryLoader::GetModuleHandleW,
         UI::{
             Input::KeyboardAndMouse::{
-                INPUT, INPUT_0, INPUT_KEYBOARD, KEYBDINPUT, KEYEVENTF_KEYUP, SendInput,
-                VIRTUAL_KEY, VK_0, VK_1, VK_2, VK_3, VK_4, VK_5, VK_6, VK_7, VK_8, VK_9, VK_A,
-                VK_B, VK_C, VK_D, VK_E, VK_F, VK_G, VK_H, VK_I, VK_J, VK_K, VK_L, VK_M, VK_N, VK_O,
-                VK_OEM_1, VK_OEM_2, VK_OEM_3, VK_OEM_4, VK_OEM_5, VK_OEM_6, VK_OEM_7, VK_OEM_102,
-                VK_OEM_COMMA, VK_OEM_MINUS, VK_OEM_PERIOD, VK_OEM_PLUS, VK_P, VK_Q, VK_R, VK_S,
-                VK_T, VK_U, VK_V, VK_W, VK_X, VK_Y, VK_Z,
+                INPUT, INPUT_0, INPUT_KEYBOARD, KEYBD_EVENT_FLAGS, KEYBDINPUT, KEYEVENTF_KEYUP,
+                SendInput, VIRTUAL_KEY, VK_0, VK_1, VK_2, VK_3, VK_4, VK_5, VK_6, VK_7, VK_8, VK_9,
+                VK_A, VK_B, VK_C, VK_D, VK_E, VK_F, VK_G, VK_H, VK_I, VK_J, VK_K, VK_L, VK_M, VK_N,
+                VK_O, VK_OEM_1, VK_OEM_2, VK_OEM_3, VK_OEM_4, VK_OEM_5, VK_OEM_6, VK_OEM_7,
+                VK_OEM_102, VK_OEM_COMMA, VK_OEM_MINUS, VK_OEM_PERIOD, VK_OEM_PLUS, VK_P, VK_Q,
+                VK_R, VK_S, VK_T, VK_U, VK_V, VK_W, VK_X, VK_Y, VK_Z,
             },
             WindowsAndMessaging::{
                 CallNextHookEx, CreateWindowExW, DefWindowProcW, DispatchMessageW, GetMessageW,
@@ -88,13 +87,16 @@ const KEYMAP: [(u16, u16); 48] = [
     (VK_OEM_102.0, VK_OEM_7.0), // `^`
 ];
 
-fn send_key_down(key_code: VIRTUAL_KEY) -> VIRTUAL_KEY {
+fn send_key(key_code: VIRTUAL_KEY, flags: &[KEYBD_EVENT_FLAGS]) -> VIRTUAL_KEY {
     unsafe {
         let input = INPUT {
             r#type: INPUT_KEYBOARD,
             Anonymous: INPUT_0 {
                 ki: KEYBDINPUT {
                     wVk: key_code,
+                    dwFlags: flags
+                        .iter()
+                        .fold(KEYBD_EVENT_FLAGS::default(), |acc, &flag| acc | flag),
                     ..Default::default()
                 },
             },
@@ -104,57 +106,40 @@ fn send_key_down(key_code: VIRTUAL_KEY) -> VIRTUAL_KEY {
     }
 }
 
-fn send_key_up(key_code: VIRTUAL_KEY) -> VIRTUAL_KEY {
+fn print_key_status(is_key_up: bool, is_injected: bool) {
+    let key_up = if is_key_up { "KeyUp" } else { "KeyDown" };
+    let injected = if is_injected { "injected" } else { "detected" };
+    println!("{}", [key_up, injected].join(" "));
+}
+
+fn is_hook_need(ncode: i32, lparam: LPARAM) -> Option<(u16, bool)> {
     unsafe {
-        let input = INPUT {
-            r#type: INPUT_KEYBOARD,
-            Anonymous: INPUT_0 {
-                ki: KEYBDINPUT {
-                    wVk: key_code,
-                    dwFlags: KEYEVENTF_KEYUP,
-                    ..Default::default()
-                },
-            },
-        };
-        SendInput(&[input], size_of::<INPUT>().try_into().unwrap());
-        key_code
+        let keymap = FxHashMap::from_iter(KEYMAP);
+        (ncode != HC_ACTION.try_into().unwrap()).then_some(())?;
+        let key_ = *(&lparam as *const LPARAM).cast::<*mut KBDLLHOOKSTRUCT>();
+        let key = NonNull::new(key_).unwrap().as_ref();
+        let key_flags = key.flags;
+        let is_key_up = key_flags.contains(LLKHF_UP);
+        let is_injected = key_flags.contains(LLKHF_INJECTED);
+        print_key_status(is_key_up, is_injected);
+        (!is_injected).then_some(())?;
+        let key_code: u16 = key.vkCode.try_into().unwrap();
+        keymap
+            .get(&key_code)
+            .copied()
+            .map(|key_code| (key_code, is_key_up))
     }
 }
 
 extern "system" fn hook_proc(ncode: i32, wparam: WPARAM, lparam: LPARAM) -> LRESULT {
     unsafe {
-        let keymap = FxHashMap::from_iter(KEYMAP);
-        if ncode != HC_ACTION.try_into().unwrap() {
-            return CallNextHookEx(None, ncode, wparam, lparam);
-        }
-        let key_ = *(&lparam as *const LPARAM).cast::<*mut KBDLLHOOKSTRUCT>();
-        let key = NonNull::new(key_).unwrap().as_ref();
-        let key_code = VIRTUAL_KEY(key.vkCode.try_into().unwrap());
-        let key_flags = key.flags;
-        let is_key_up = key_flags.contains(LLKHF_UP);
-        if is_key_up {
-            print!("KeyUp");
-            let _ = std::io::stdout().flush();
-        } else {
-            print!("KeyDown");
-            let _ = std::io::stdout().flush();
-        }
-        let is_injected = key_flags.contains(LLKHF_INJECTED);
-        if is_injected {
-            println!("injected");
-        } else {
-            println!("detected");
-        }
-        if is_injected {
-            return CallNextHookEx(None, ncode, wparam, lparam);
-        }
-        match keymap.get(&key_code.0) {
-            Some(mapped_code) => {
+        match is_hook_need(ncode, lparam) {
+            Some((mapped_code, is_key_up)) => {
                 if is_key_up {
-                    send_key_up(VIRTUAL_KEY(*mapped_code));
+                    send_key(VIRTUAL_KEY(mapped_code), &[KEYEVENTF_KEYUP]);
                     LRESULT(1)
                 } else {
-                    send_key_down(VIRTUAL_KEY(*mapped_code));
+                    send_key(VIRTUAL_KEY(mapped_code), &[]);
                     LRESULT(1)
                 }
             }
