@@ -115,7 +115,7 @@ fn print_key_status(is_key_up: bool, is_injected: bool) {
 fn is_hook_need(ncode: i32, lparam: LPARAM) -> Option<(u16, bool)> {
     unsafe {
         let keymap = FxHashMap::from_iter(KEYMAP);
-        (ncode != HC_ACTION.try_into().unwrap()).then_some(())?;
+        (ncode == HC_ACTION.try_into().unwrap()).then_some(())?;
         let key_ = *(&lparam as *const LPARAM).cast::<*mut KBDLLHOOKSTRUCT>();
         let key = NonNull::new(key_).unwrap().as_ref();
         let key_flags = key.flags;
